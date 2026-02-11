@@ -1,161 +1,170 @@
-Learning Probability Density Functions Using Data Only
-📌 Project Title
-Learning Probability Density Functions Using Data Only using GAN
+### Assignment 1
 
-📊 Dataset Description
+Learning Probability Density Function Using Parametric Modeling (MLE)
+
+### Dataset Description
+
 Feature Used: NO₂ Concentration (x)
+
 Dataset Source: Kaggle
 https://www.kaggle.com/datasets/shrutibhargava94/india-air-quality-data
+
 Dataset Type: Air Quality Monitoring Data (India)
+
 Attribute Selected: NO₂ Concentration Levels
-The dataset contains air pollution records collected from multiple monitoring stations across India. For this assignment, only the NO₂ concentration feature is used as the random variable x.
 
-🎯 Objective
-The main objective of this project is:
+The dataset contains air pollution measurements collected from monitoring stations across India. For this assignment, only the NO₂ concentration feature is treated as the random variable 
+𝑥.
 
-To learn an unknown probability density function (PDF) of a transformed random variable using only data samples and a Generative Adversarial Network (GAN), without assuming any predefined parametric distribution.
+### Objective
 
-This work focuses on modeling complex data distributions directly from samples.
+To model the probability density function (PDF) of a transformed random variable using a parametric Gaussian model, where parameters are estimated using Maximum Likelihood Estimation (MLE).
 
-🧮 Mathematical Formulation
-Each value of x is transformed into z using the transformation:
+Mathematical Formulation
 
-z
-=
-T
-r
-(
-x
-)
-=
-x
-+
-a
-r
-sin
-⁡
-(
-b
-r
-x
-)
+Each value of 𝑥 is transformed into :
+
+z = x + a_r \sin(b_r x)
 
 Where:
 
-a
-r
-=
-0.5
-(
-r
-mod
-7
-)
+a_r = 0.5 (r \mod 7)
 
-b
-r
-=
-0.3
-(
-r
-mod
-5
-+
-1
-)
+b_r = 0.3 (r \mod 5 + 1)​
 
-Here,
+Roll number:
+𝑟=102316009
 
-r
-=
-102316099
+> ### Transformation Parameters Used
+> 
+> | Parameter | Value |
+> |-----------|--------|
+> | a_r | 1.5 |
+> | b_r | 1.5 |
 
-(University Roll Number)
+### Methodology
+Phase 1 — Data Preprocessing
 
-Transformation Parameters Used
-Parameter	Value
-a_r	2.0
-b_r	1.5
-🛠️ Methodology
-The complete methodology is divided into five major phases.
+Dataset loaded
+Missing values removed
+NO₂ feature extracted
+Data cleaned
 
-Phase 1: Data Preprocessing
-The Kaggle dataset is downloaded and loaded.
-Missing values are removed.
-Only NO₂ concentration values are extracted.
-The data is normalized for stable training.
-Outliers are handled to reduce noise.
-This step ensures that the dataset is clean and suitable for GAN training.
+Phase 2 — Data Transformation
 
-Phase 2: Data Transformation
-Using the given transformation equation, each value of x is converted into z.
+Compute parameters 
+a_r,b_r
+Apply nonlinear transformation
+Inspect transformed distribution
 
-Steps:
+Phase 3 — Parameter Estimation
 
-Calculate parameters a_r and b_r.
-Apply transformation to each data point.
-Store transformed values in a new dataset.
-Visualize the transformed distribution.
-This transformation introduces non-linearity in the data.
+Assume Gaussian PDF
+[\hat{p}(z) = c e^{-\lambda (z - \mu)^2}]
 
-Phase 3: GAN Architecture Design
-A Generative Adversarial Network consists of two neural networks.
+MLE estimates:
+μ → Mean
+σ² → Variance
+λ = 1/(2σ²)
+c = 1/√(2πσ²)
 
-Generator Network
-Purpose: Generate fake samples similar to real z values.
+Phase 4 — Visualization
 
-Structure:
+Histogram plotted
+Gaussian PDF overlaid
 
-Layer	Type	Units	Activation
-1	Dense	128	ReLU
-2	Dense	64	ReLU
-3	Dense	1	Linear
-Input: Random noise ~ N(0,1)
-Output: Generated value z_f
-Discriminator Network
-Purpose: Classify samples as real or fake.
+### Results
 
-Structure:
+Transformed data shows bell-shaped behavior
 
-Layer	Type	Units	Activation
-1	Dense	128	ReLU
-2	Dense	64	ReLU
-3	Dense	1	Sigmoid
-Input: Real and generated z values
-Output: Probability score
-Phase 4: GAN Training
-Training is performed using adversarial learning.
+Gaussian model approximates density well
 
-Steps:
+Parameters are stable and interpretable
 
-Generate random noise.
-Generate fake samples using Generator.
-Train Discriminator on real samples.
-Train Discriminator on fake samples.
-Update Generator to fool Discriminator.
-Repeat for multiple epochs.
-Training Parameters:
+### Conclusion (Assignment 1)
 
-Parameter	Value
-Epochs	5000
-Batch Size	64
-Learning Rate	0.0002
-Optimizer	Adam
-Phase 5: PDF Estimation
-After training:
+The nonlinear transformation preserves statistical structure. A Gaussian parametric model successfully captures the transformed distribution using MLE.
 
-Generator produces a large number of samples.
-Generated samples are collected.
-PDF is estimated using:
-Histogram Density Estimation
-Kernel Density Estimation (KDE)
-Estimated PDF is plotted.
-This approximates the unknown probability distribution.
+### Assignment 2
 
-📈 Experimental Results
-Result Table
-Metric	Value
-Final Generator Loss	Recorded during training
-Final Discriminator Loss	Recorded during training
-Total Epochs	5000
-Generated Sample Size	10000+
+Learning Probability Density Functions Using Data Only (GAN-Based Approach)
+
+### Objective
+
+To learn the probability density of a transformed variable without assuming any parametric distribution, using a Generative Adversarial Network trained purely from data samples.
+
+Mathematical Formulation
+
+Each value of 𝑥 is transformed into :
+
+z = x + a_r \sin(b_r x)
+
+Where:
+
+a_r = 0.5 (r \mod 7)
+
+b_r = 0.3 (r \mod 5 + 1)​
+
+Roll number:
+𝑟=102316009
+
+### Methodology
+Phase 1 — Data Preprocessing
+
+Dataset loaded
+Missing values removed
+NO₂ feature extracted
+Data cleaned
+
+Phase 2 — Data Transformation
+
+Compute parameters 
+a_r,b_r
+Apply nonlinear transformation
+Inspect transformed distribution
+
+Phase 3 — GAN Architecture
+
+Generator
+Dense(128) → ReLU
+Dense(64) → ReLU
+Dense(1) → Linear
+Input: noise ~ N(0,1)
+
+Discriminator
+Dense(128) → ReLU
+Dense(64) → ReLU
+Dense(1) → Sigmoid
+
+Phase 4 — Training
+
+Generate noise
+Create fake samples
+Train discriminator
+Update generator
+Repeat for many epochs
+> ### Training settings
+> 
+> | Parameter | Value |
+> |----------|------|
+> | Epochs | 5000 |
+> | Batch Size | 64 |
+> | Learning Rate | 0.0002 |
+> | Optimizer | Adam |
+
+Phase 5 — PDF Estimation
+
+Generate large synthetic sample set
+Estimate density using histogram + KDE
+Compare real vs generated distributions
+
+### Experimental Results
+
+GAN learns distribution structure
+Generated samples match real data
+Complex shapes captured
+No Gaussian assumption required
+
+### Conclusion (Assignment 2)
+
+GAN-based modeling learns the probability density directly from samples. This non-parametric approach is powerful for representing unknown and complex distributions.
